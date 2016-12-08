@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22812C71-63E6-4941-BBFD-0EEA0D2D6588}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Aogood</RootNamespace>
+    <AssemblyName>Aogood</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Unity3D\MgaSrcNS\GameClient\Projects\References\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agc\Foundation\CAppConfig.cs" />
+    <Compile Include="Agc\Foundation\CDebug.cs" />
+    <Compile Include="Agc\Foundation\CFactoryCreateInstance.cs" />
+    <Compile Include="Agc\Foundation\CMessage.cs" />
+    <Compile Include="Agc\Foundation\CNetworkMessageFactory.cs" />
+    <Compile Include="Agc\Foundation\CSingleton.cs" />
+    <Compile Include="Agc\Network\CClassHandler.cs" />
+    <Compile Include="Agc\Network\CNetwork.cs" />
+    <Compile Include="Agc\Network\CNetworkClient.cs" />
+    <Compile Include="Agc\Network\CNetworkMessageEvent.cs" />
+    <Compile Include="Agc\Network\CNetworkMessageEventArgs.cs" />
+    <Compile Include="Agc\Network\CNetworkMessage.cs" />
+    <Compile Include="Agc\Network\CNetworkMessageResponseHandler.cs" />
+    <Compile Include="Agc\Network\CNetworkServer.cs" />
+    <Compile Include="Agc\ShareLib\CChatSystemMessage.cs" />
+    <Compile Include="Agc\ShareLib\CHeartMessage.cs" />
+    <Compile Include="Agc\ShareLib\CLoginSystemMessage.cs" />
+    <Compile Include="Agc\ShareLib\ESystemType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

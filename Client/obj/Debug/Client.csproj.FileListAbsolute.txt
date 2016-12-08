@@ -1,0 +1,8 @@
+C:\Works\SVN\VS2015\Aogood\Client\bin\Debug\Client.exe.config
+C:\Works\SVN\VS2015\Aogood\Client\bin\Debug\Client.exe
+C:\Works\SVN\VS2015\Aogood\Client\bin\Debug\Client.pdb
+C:\Works\SVN\VS2015\Aogood\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Works\SVN\VS2015\Aogood\Client\obj\Debug\Client.exe
+C:\Works\SVN\VS2015\Aogood\Client\obj\Debug\Client.pdb
+C:\Works\SVN\VS2015\Aogood\Client\bin\Debug\Aogood.dll
+C:\Works\SVN\VS2015\Aogood\Client\bin\Debug\Aogood.pdb

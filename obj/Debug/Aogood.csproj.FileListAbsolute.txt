@@ -1,0 +1,10 @@
+C:\Users\yuling.yan.AOGOOD\Desktop\Aogood\新建文件夹\Aogood\bin\Debug\Aogood.dll
+C:\Users\yuling.yan.AOGOOD\Desktop\Aogood\新建文件夹\Aogood\bin\Debug\Aogood.pdb
+C:\Users\yuling.yan.AOGOOD\Desktop\Aogood\新建文件夹\Aogood\obj\Debug\Aogood.csprojResolveAssemblyReference.cache
+C:\Users\yuling.yan.AOGOOD\Desktop\Aogood\新建文件夹\Aogood\obj\Debug\Aogood.dll
+C:\Users\yuling.yan.AOGOOD\Desktop\Aogood\新建文件夹\Aogood\obj\Debug\Aogood.pdb
+C:\Works\SVN\VS2015\Aogood\obj\Debug\Aogood.dll
+C:\Works\SVN\VS2015\Aogood\obj\Debug\Aogood.pdb
+C:\Works\SVN\VS2015\Aogood\bin\Debug\Aogood.dll
+C:\Works\SVN\VS2015\Aogood\bin\Debug\Aogood.pdb
+C:\Works\SVN\VS2015\Aogood\bin\Debug\UnityEngine.dll
