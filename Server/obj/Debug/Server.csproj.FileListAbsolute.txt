@@ -14,3 +14,6 @@ C:\Works\SVN\VS2015\Aogood\Server\bin\Debug\Server.pdb
 C:\Works\SVN\VS2015\Aogood\Server\bin\Debug\Aogood.dll
 C:\Works\SVN\VS2015\Aogood\Server\bin\Debug\Aogood.pdb
 C:\Works\SVN\VS2015\Aogood\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+D:\Work\SVN\Tools\Aogood\Server\bin\Debug\Server.exe.config
+D:\Work\SVN\Tools\Aogood\Server\obj\Debug\Server.exe
+D:\Work\SVN\Tools\Aogood\Server\obj\Debug\Server.pdb
