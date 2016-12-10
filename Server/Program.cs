@@ -12,6 +12,7 @@ namespace Server
         {
             Aogood.Network.CNetworkServer s = new Aogood.Network.CNetworkServer("192.168.8.118", 8899);
             s.Start();
+            Console.WriteLine("test");
             Console.ReadKey();
         }
     }
