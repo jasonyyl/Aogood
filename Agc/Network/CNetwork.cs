@@ -50,6 +50,7 @@ namespace Aogood.Network
             }
             try
             {
+                byte[] head = new byte[4];
                 if (client.Connected)
                     client.BeginSend(bt, 0, bt.Length, 0, new AsyncCallback(SendCallback), client);
                 isSend = true;
