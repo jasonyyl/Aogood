@@ -15,9 +15,6 @@ namespace Aogood.Network
 {
     public class CNetworkClient : CNetwork
     {
-        #region Field
-        bool m_IsSend = false;
-        #endregion
         public bool IsConnected { get; protected set; }
 
         static DateTime m_StartWaitTime = DateTime.MaxValue;
@@ -26,8 +23,7 @@ namespace Aogood.Network
         protected CNetworkMessageFactory m_factory;
         protected System.Timers.Timer m_TimerCount = new System.Timers.Timer();
         private ManualResetEvent m_ResponseDone = new ManualResetEvent(false);
-        private ManualResetEvent m_ConnectDone = new ManualResetEvent(false);
-        private ManualResetEvent m_SendDone = new ManualResetEvent(false);
+        private ManualResetEvent m_ConnectDone = new ManualResetEvent(false);      
         private ManualResetEvent m_ReceiveDone = new ManualResetEvent(false);
         protected List<ResponseObject> m_WaitForSend = new List<ResponseObject>();
         protected List<ResponseObject> m_WaitForResponse = new List<ResponseObject>();
@@ -71,78 +67,52 @@ namespace Aogood.Network
             Console.WriteLine("connnect");
 
         }
-        protected override void SendCallback(IAsyncResult ar)
-        {
-            try
-            {
-                // 返回连接的Socket对象
-                Socket client = (Socket)ar.AsyncState;
+        //protected override void ReceiveCallback(IAsyncResult ar)
+        //{
+        //    try
+        //    {
+        //        //String content = String.Empty;
+        //        //StateObject state = (StateObject)ar.AsyncState;
+        //        //Socket proxSocket = state.workSocket;
+        //        //int bytesRead = proxSocket.EndReceive(ar);
 
-                // 成功发送内容
-                int bytesSent = client.EndSend(ar);
+        //        //if (bytesRead > 0)
+        //        //{
+        //        //    using (MemoryStream stream = new MemoryStream(state.buffer))
+        //        //    {
+        //        //        BinaryFormatter binFormat = new BinaryFormatter();
+        //        //        stream.Position = 0;
+        //        //        stream.Seek(0, SeekOrigin.Begin);
+        //        //        CNetworkMessage msgObj = (CNetworkMessage)binFormat.Deserialize(stream);
+        //        //        //消息广播到MessageFactory
+        //        //        if (m_factory != null)
+        //        //            m_factory.AnalyseNetworkMessage(proxSocket, msgObj);
+        //        //        //采用消息对的形式响应
+        //        //        if (m_WaitForResponse.Count > 0)
+        //        //        {
+        //        //            m_WaitForResponse[0].ReceiverCallBack(this, new CNetworkMessageEventArgs() { NetworkMsg = msgObj });
+        //        //            m_WaitForResponse.RemoveAt(0);
+        //        //        }
 
-                m_SendDone.Set();
-                m_IsSend = true;
-            }
-            catch (Exception e)
-            {
-                StateObject state = (StateObject)ar.AsyncState;
-                Socket proxSocket = state.workSocket;
-                IPEndPoint ipEndPoint = proxSocket.RemoteEndPoint as IPEndPoint;
-                if (proxSocket != null && !proxSocket.Connected && ipEndPoint != null)
-                {
-                    CDebug.Log("服务器iP为:{0} Port为:{1}断开连接", ipEndPoint.Address, ipEndPoint.Port);
-                    proxSocket.Shutdown(SocketShutdown.Both);
-                    proxSocket.Close();
-                }
-            }
-        }
-        protected override void ReceiveCallback(IAsyncResult ar)
-        {
-            try
-            {
-                String content = String.Empty;
-                StateObject state = (StateObject)ar.AsyncState;
-                Socket proxSocket = state.workSocket;
-                int bytesRead = proxSocket.EndReceive(ar);
+        //        //    }
+        //        //}
+        //        m_ReceiveDone.Set();
+        //        m_ResponseDone.Set();
 
-                if (bytesRead > 0)
-                {
-                    using (MemoryStream stream = new MemoryStream(state.buffer))
-                    {
-                        BinaryFormatter binFormat = new BinaryFormatter();
-                        stream.Position = 0;
-                        stream.Seek(0, SeekOrigin.Begin);
-                        CNetworkMessage msgObj = (CNetworkMessage)binFormat.Deserialize(stream);
-                        //消息广播到MessageFactory
-                        if (m_factory != null)
-                            m_factory.AnalyseNetworkMessage(proxSocket, msgObj);
-                        //采用消息对的形式响应
-                        if (m_WaitForResponse.Count > 0)
-                        {
-                            m_WaitForResponse[0].ReceiverCallBack(this, new CNetworkMessageEventArgs() { NetworkMsg = msgObj });
-                            m_WaitForResponse.RemoveAt(0);
-                        }
-
-                    }
-                }
-                m_ReceiveDone.Set();
-                m_ResponseDone.Set();
-
-            }
-            catch (Exception e)
-            {
-                StateObject state = (StateObject)ar.AsyncState;
-                Socket proxSocket = state.workSocket;
-                IPEndPoint ipEndPoint = proxSocket.RemoteEndPoint as IPEndPoint;
-                if (proxSocket != null && !proxSocket.Connected && ipEndPoint != null)
-                {
-                    CDebug.Log("服务器iP为:{0} Port为:{1}断开连接", ipEndPoint.Address, ipEndPoint.Port);
-                    proxSocket.Shutdown(SocketShutdown.Both);
-                    proxSocket.Close();
-                }
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        StateObject state = (StateObject)ar.AsyncState;
+        //        Socket proxSocket = state.workSocket;
+        //        IPEndPoint ipEndPoint = proxSocket.RemoteEndPoint as IPEndPoint;
+        //        if (proxSocket != null && !proxSocket.Connected && ipEndPoint != null)
+        //        {
+        //            CDebug.Log("服务器iP为:{0} Port为:{1}断开连接", ipEndPoint.Address, ipEndPoint.Port);
+        //            proxSocket.Shutdown(SocketShutdown.Both);
+        //            proxSocket.Close();
+        //        }
+        //    }
+        //}
         public static IEnumerator WaitForResponse(CNetworkMessageResponseHandler responseMsg)
         {
             double m_WaitTime = 0;
