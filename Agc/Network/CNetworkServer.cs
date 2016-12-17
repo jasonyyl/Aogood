@@ -12,20 +12,17 @@ namespace Aogood.Network
 {
     public class CNetworkServer : CNetwork
     {
-
-
-        #region 属性
-        public bool IsListen { get; set; }
-
-        #endregion
-
-        #region 变量
-        protected CNetworkMessageFactory m_factory;
+        #region Field
         protected Dictionary<string, Socket> m_SocketProx;
         protected ManualResetEvent m_AllDone = new ManualResetEvent(false);
         #endregion
 
-        #region 方法
+        #region Property
+        public bool IsListen { get; set; }
+
+        #endregion
+
+        #region Method
         public CNetworkServer(string ip, int port)
         {
             m_Port = port;
@@ -77,7 +74,7 @@ namespace Aogood.Network
             {
                 Socket listenerSocket = (Socket)ar.AsyncState;
                 Socket proxSocket = listenerSocket.EndAccept(ar);
-                StateObject state = new StateObject();
+                ResponseObject state = new ResponseObject();
                 state.workSocket = proxSocket;
                 m_SocketProx.Add(proxSocket.RemoteEndPoint.ToString(), proxSocket);
                 Console.WriteLine("iP为{0}的用户连接到服务器", proxSocket.RemoteEndPoint);
@@ -90,46 +87,6 @@ namespace Aogood.Network
 
 
         }
-
-        //protected override void ReceiveCallback(IAsyncResult ar)
-        //{
-        //    try
-        //    {
-        //        //String content = String.Empty;
-        //        //StateObject state = (StateObject)ar.AsyncState;
-        //        //Socket proxSocket = state.workSocket;
-        //        //int bytesRead = proxSocket.EndReceive(ar);
-        //        //if (bytesRead > 0)
-        //        //{
-        //        //    using (MemoryStream stream = new MemoryStream(state.buffer))
-        //        //    {
-        //        //        BinaryFormatter binFormat = new BinaryFormatter();
-        //        //        stream.Position = 0;
-        //        //        stream.Seek(0, SeekOrigin.Begin);
-        //        //        CNetworkMessage msgObj = (CNetworkMessage)binFormat.Deserialize(stream);
-        //        //        if (m_factory != null)
-        //        //            m_factory.AnalyseNetworkMessage(proxSocket, msgObj);
-        //        //    }
-        //        //}
-        //        //StateObject obj = new StateObject();
-        //        //obj.workSocket = proxSocket;
-        //        //proxSocket.BeginReceive(obj.buffer, 0, obj.buffer.Length, SocketFlags.None, ReceiveCallback, obj);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        StateObject state = (StateObject)ar.AsyncState;
-        //        Socket proxSocket = state.workSocket;
-        //        IPEndPoint ipEndPoint = proxSocket.RemoteEndPoint as IPEndPoint;
-        //        if (proxSocket != null && !proxSocket.Connected && ipEndPoint != null)
-        //        {
-        //            CDebug.Log("客户端iP为:{0} Port为:{1}断开连接", ipEndPoint.Address, ipEndPoint.Port);
-        //            m_SocketProx.Remove(proxSocket.RemoteEndPoint.ToString());
-        //            proxSocket.Shutdown(SocketShutdown.Both);
-        //            proxSocket.Close();
-        //        }
-        //    }
-        //}
-
         public void Stop(Socket sokcet)
         {
 
@@ -157,37 +114,6 @@ namespace Aogood.Network
         #endregion
     }
 
-    public class StateObject
-    {
-        public Socket workSocket = null;
-        public CMessagePackage msgPack = null;
-        public CNetworkMessageEvent ReceiverCallBack;
-    }
-
-    public class ResponseObject
-    {
-        DateTime m_DtStart = DateTime.MaxValue;
-        //回调
-        public CNetworkMessageEvent ReceiverCallBack;
-
-        public CNetworkMessage RequestMessage = null;
-
-        public CNetworkMessageResponseHandlerT<CNetworkMessage> ResponseMsg = null;
-
-        public bool IsWait = false;
-        public ResponseObject()
-        {
-
-        }
-        public void StartWait(DateTime dt_start)
-        {
-            m_DtStart = dt_start;
-            IsWait = true;
-        }
-        public float GetTime()
-        {
-            return (float)DateTime.Now.Subtract(m_DtStart).TotalSeconds;
-        }
-    }
+ 
 }
 

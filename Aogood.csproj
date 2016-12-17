@@ -47,15 +47,12 @@
     <Compile Include="Agc\Foundation\CFactoryCreateInstance.cs" />
     <Compile Include="Agc\Foundation\CMath.cs" />
     <Compile Include="Agc\Foundation\CMessage.cs" />
-    <Compile Include="Agc\Foundation\CNetworkMessageFactory.cs" />
     <Compile Include="Agc\Foundation\CSingleton.cs" />
     <Compile Include="Agc\Network\CClassHandler.cs" />
     <Compile Include="Agc\Network\CMessagePackage.cs" />
     <Compile Include="Agc\Network\CNetwork.cs" />
     <Compile Include="Agc\Network\CNetworkClient.cs" />
-    <Compile Include="Agc\Network\CNetworkMessageEvent.cs" />
-    <Compile Include="Agc\Network\CNetworkMessageEventArgs.cs" />
-    <Compile Include="Agc\Network\CNetworkMessage.cs" />
+    <Compile Include="Agc\ShareLib\CNetworkMessage.cs" />
     <Compile Include="Agc\Network\CNetworkMessageResponseHandler.cs" />
     <Compile Include="Agc\Network\CNetworkServer.cs" />
     <Compile Include="Agc\ShareLib\CChatSystemMessage.cs" />

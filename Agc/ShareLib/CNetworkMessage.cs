@@ -1,7 +1,7 @@
 ﻿using System;
 using Aogood.Foundation;
 
-namespace Aogood.Network
+namespace Aogood.SHLib
 {
     [Serializable]
     public class CNetworkMessage : CMessage

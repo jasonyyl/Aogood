@@ -8,14 +8,18 @@ using System.Threading;
 
 namespace Aogood.Network
 {
+
+
+
     public class CNetwork
     {
         #region Field
-        protected bool m_IsSend = false;
+        protected bool m_IsSend;
         protected int m_Port;
         protected IPAddress m_IP;
         protected Socket m_SocketMain;
         protected ManualResetEvent m_SendDone = new ManualResetEvent(false);
+        public event Action<ResponseObject> MessageReceiveEvent;
         #endregion
 
         #region Property
@@ -40,15 +44,13 @@ namespace Aogood.Network
         public CNetwork()
         {
         }
-        public virtual void Send(Socket client, CNetworkMessage message)
+        public virtual void Send(RequestObject request)
         {
-
             try
             {
-                CMessagePackage msgPack = new CMessagePackage(message);
-                if (client.Connected)
+                if (request.workSocket.Connected)
                 {
-                    client.BeginSend(msgPack.MsgHead, 0, msgPack.MsgHead.Length, 0, new AsyncCallback(SendCallBackHead), msgPack);
+                    request.workSocket.BeginSend(request.msgPack.MsgHead, 0, request.msgPack.MsgHead.Length, 0, new AsyncCallback(SendCallBackHead), request);
                 }
             }
             catch (Exception)
@@ -60,11 +62,11 @@ namespace Aogood.Network
         {
             try
             {
-                CMessagePackage msgPack = (CMessagePackage)ar.AsyncState;
-
-                if (m_SocketMain.Connected)
+                RequestObject request = (RequestObject)ar.AsyncState;
+                int bytesSent = request.workSocket.EndSend(ar);
+                if (request.workSocket.Connected)
                 {
-                    m_SocketMain.BeginSend(msgPack.MsgContent, 0, msgPack.MsgContent.Length, 0, new AsyncCallback(SendCallback), msgPack);
+                    request.workSocket.BeginSend(request.msgPack.MsgContent, 0, request.msgPack.MsgContent.Length, 0, new AsyncCallback(SendCallback), request);
                 }
             }
             catch (Exception e)
@@ -76,9 +78,11 @@ namespace Aogood.Network
         {
             try
             {
-                int bytesSent = m_SocketMain.EndSend(ar);
-                m_SendDone.Set();
+                RequestObject request = (RequestObject)ar.AsyncState;
+                int bytesSent = request.workSocket.EndSend(ar);
                 m_IsSend = true;
+                m_SendDone.Set();
+                
             }
             catch (Exception e)
             {
@@ -90,7 +94,8 @@ namespace Aogood.Network
                 }
             }
         }
-        protected virtual void Receive(StateObject state)
+
+        public virtual void Receive(ResponseObject state)
         {
             try
             {
@@ -106,7 +111,7 @@ namespace Aogood.Network
         }
         void ReceiveCallBackHead(IAsyncResult ar)
         {
-            StateObject state = (StateObject)ar.AsyncState;
+            ResponseObject state = (ResponseObject)ar.AsyncState;
             int bytesRead = state.workSocket.EndReceive(ar);
             if (bytesRead > 0)
             {
@@ -120,12 +125,11 @@ namespace Aogood.Network
         }
         void ReceiveCallback(IAsyncResult ar)
         {
-            StateObject state = (StateObject)ar.AsyncState;
+            ResponseObject state = (ResponseObject)ar.AsyncState;
             int bytesRead = state.workSocket.EndReceive(ar);
             if (bytesRead > 0)
             {
-                MSG_CTS_CHAT msg = state.msgPack.GetMessage(state.msgPack.MsgContent) as MSG_CTS_CHAT;
-                Console.WriteLine(msg.Content);
+                MessageReceiveEvent(state);
             }
         }
         #endregion
