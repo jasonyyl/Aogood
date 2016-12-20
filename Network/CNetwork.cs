@@ -81,8 +81,10 @@ namespace Aogood.Network
                 RequestObject request = (RequestObject)ar.AsyncState;
                 int bytesSent = request.workSocket.EndSend(ar);
                 m_IsSend = true;
+                Foundation.CAogoodFactory.Instance.RecycleObject(request);
                 m_SendDone.Set();
-                
+
+
             }
             catch (Exception e)
             {

@@ -42,23 +42,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agc\Foundation\CAppConfig.cs" />
-    <Compile Include="Agc\Foundation\CDebug.cs" />
-    <Compile Include="Agc\Foundation\CFactoryCreateInstance.cs" />
-    <Compile Include="Agc\Foundation\CMath.cs" />
-    <Compile Include="Agc\Foundation\CMessage.cs" />
-    <Compile Include="Agc\Foundation\CSingleton.cs" />
-    <Compile Include="Agc\Network\CClassHandler.cs" />
-    <Compile Include="Agc\Network\CMessagePackage.cs" />
-    <Compile Include="Agc\Network\CNetwork.cs" />
-    <Compile Include="Agc\Network\CNetworkClient.cs" />
-    <Compile Include="Agc\ShareLib\CNetworkMessage.cs" />
-    <Compile Include="Agc\Network\CNetworkMessageResponseHandler.cs" />
-    <Compile Include="Agc\Network\CNetworkServer.cs" />
-    <Compile Include="Agc\ShareLib\CChatSystemMessage.cs" />
-    <Compile Include="Agc\ShareLib\CHeartMessage.cs" />
-    <Compile Include="Agc\ShareLib\CLoginSystemMessage.cs" />
-    <Compile Include="Agc\ShareLib\ESystemType.cs" />
+    <Compile Include="Foundation\CAppConfig.cs" />
+    <Compile Include="Foundation\CDebug.cs" />
+    <Compile Include="Foundation\CFactoryCreateInstance.cs" />
+    <Compile Include="Foundation\CMath.cs" />
+    <Compile Include="Foundation\Interface\IRecycle.cs" />
+    <Compile Include="Foundation\Interface\IReusable.cs" />
+    <Compile Include="Foundation\Factory\CAogoodFactory.cs" />
+    <Compile Include="ShareLib\CMessage.cs" />
+    <Compile Include="Foundation\ObjectPool\CObjectCachePool.cs" />
+    <Compile Include="Foundation\CSingleton.cs" />
+    <Compile Include="Network\CClassHandler.cs" />
+    <Compile Include="Network\CMessagePackage.cs" />
+    <Compile Include="Network\CNetwork.cs" />
+    <Compile Include="Network\CNetworkClient.cs" />
+    <Compile Include="ShareLib\CNetworkMessage.cs" />
+    <Compile Include="Network\CNetworkMessageResponseHandler.cs" />
+    <Compile Include="Network\CNetworkServer.cs" />
+    <Compile Include="ShareLib\CChatSystemMessage.cs" />
+    <Compile Include="ShareLib\CHeartMessage.cs" />
+    <Compile Include="ShareLib\CLoginSystemMessage.cs" />
+    <Compile Include="ShareLib\ESystemType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

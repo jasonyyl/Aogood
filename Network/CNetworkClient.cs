@@ -40,13 +40,14 @@ namespace Aogood.Network
             }
 
         }
-        public bool SendResponsible<T>(CNetworkMessage sendMsg, out CNetworkMessageResponseHandlerT<T> responseMsg) where T : CNetworkMessage
+        public bool SendResponsible<T>(CNetworkMessage requestMsg, out CNetworkMessageResponseHandlerT<T> responseMsg) where T : CNetworkMessage
         {
             m_IsSend = false;
             m_SendDone.Reset();
 
             responseMsg = new CNetworkMessageResponseHandlerT<T>();
-            RequestObject request = new RequestObject(sendMsg);
+            RequestObject request = CAogoodFactory.Instance.GetObject<RequestObject>();
+            request.SetRequsetMessage(requestMsg);
             request.workSocket = m_SocketMain;
             Send(request);
 

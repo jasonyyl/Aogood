@@ -1,4 +1,5 @@
 ﻿using Aogood.Network;
+using Aogood.Foundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,8 @@ namespace Server
         {
             Aogood.SHLib.MSG_STC_CHAT msg = new Aogood.SHLib.MSG_STC_CHAT();
             msg.Content = "你好";
-            RequestObject requset = new RequestObject(msg);
+            RequestObject requset = CAogoodFactory.Instance.GetObject<RequestObject>();
+            requset.SetRequsetMessage(msg);
             requset.workSocket = obj.workSocket;
             s.Send(requset);
             s.Receive(obj);

@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using Aogood.SHLib;
+using Aogood.Foundation;
 namespace Aogood.Network
 {
     public class CMessagePackage
@@ -56,24 +57,44 @@ namespace Aogood.Network
 
     }
 
-    public class ResponseObject
+    public class ResponseObject : IRecycle
     {
         public Socket workSocket = null;
         public CMessagePackage msgPack = null;
         public CNetworkMessageResponseHandler msgResponse = null;
+
+        public ResponseObject()
+        {
+
+        }
+        public void Recycle()
+        {
+            workSocket = null;
+            msgPack = null;
+            msgResponse = null;
+        }
     }
 
-    public class RequestObject
+    public class RequestObject : IRecycle
     {
         public Socket workSocket = null;
         public CMessagePackage msgPack = null;
 
-        public RequestObject(CNetworkMessage requstMsg)
+        public RequestObject()
+        {
+
+        }
+        public void SetRequsetMessage(CNetworkMessage requstMsg)
         {
             if (msgPack == null)
             {
                 msgPack = new CMessagePackage(requstMsg);
             }
+        }
+        public void Recycle()
+        {
+            workSocket = null;
+            msgPack = null;
         }
     }
 }
