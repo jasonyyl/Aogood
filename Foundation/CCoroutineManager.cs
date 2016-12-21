@@ -56,33 +56,23 @@ namespace Aogood.Foundation
     }
     public static class CCoroutineManager
     {
-        static List<CCoroutine> editorCoroutineList;
-        static List<IEnumerator> buffer;
-
-        public static IEnumerator StartCoroutine(IEnumerator iterator)
+        static List<CCoroutine> m_CoroutineList;
+        static List<IEnumerator> m_Buffer;
+        static Action m_UpdateEvent;
+        static System.Timers.Timer m_TimerUpdate;
+        static CCoroutineManager()
         {
-            if (editorCoroutineList == null)
-            {
-                editorCoroutineList = new List<CCoroutine>();
-            }
-            if (buffer == null)
-            {
-                buffer = new List<IEnumerator>();
-            }
-            if (editorCoroutineList.Count == 0)
-            {
-                ClientApp.updateEvent += Update;
-            }
-            // add iterator to buffer first
-            buffer.Add(iterator);
-
-            return iterator;
-        }
+            if (m_TimerUpdate == null)
+                m_TimerUpdate = new System.Timers.Timer();
+            m_TimerUpdate.Interval = 1.0 / 60.0;
+            m_TimerUpdate.Elapsed += UpdateRate;
+            m_TimerUpdate.Start();
+        }    
         static bool Find(IEnumerator iterator)
         {
             // If this iterator is already added
             // Then ignore it this time
-            foreach (CCoroutine editorCoroutine in editorCoroutineList)
+            foreach (CCoroutine editorCoroutine in m_CoroutineList)
             {
                 if (editorCoroutine.Find(iterator))
                 {
@@ -91,63 +81,67 @@ namespace Aogood.Foundation
             }
             return false;
         }
-
         static void Update()
         {
-            editorCoroutineList.RemoveAll
+            m_CoroutineList.RemoveAll
             (
             coroutine => { return coroutine.MoveNext() == false; }
             );
 
             // If we have iterators in buffer
-            if (buffer.Count > 0)
+            if (m_Buffer.Count > 0)
             {
-                foreach (IEnumerator iterator in buffer)
+                foreach (IEnumerator iterator in m_Buffer)
                 {
                     // If this iterators not exists
                     if (!Find(iterator))
                     {
                         // Added this as new EditorCoroutine
-                        editorCoroutineList.Add(new CCoroutine(iterator));
+                        m_CoroutineList.Add(new CCoroutine(iterator));
                     }
                 }
 
                 // Clear buffer
-                buffer.Clear();
+                m_Buffer.Clear();
             }
 
             // If we have no running Coroutine
             // Stop calling update anymore
-            if (editorCoroutineList.Count == 0)
+            if (m_CoroutineList.Count == 0)
             {
-                ClientApp.updateEvent -= Update;
+                m_UpdateEvent -= Update;
             }
-        }
-    }
-
-    public static class ClientApp
-    {
-        public static Action updateEvent;
-        static System.Timers.Timer t;
-        public static void Start()
-        {
-            if (t == null)
-                t = new System.Timers.Timer();
-            t.Interval = 1.0 / 60.0;
-            t.Elapsed += UpdateRate;
-            t.Start();
-        }
-        public static void Stop()
-        {
-            t.Stop();
-            t.Dispose();
         }
         static void UpdateRate(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (updateEvent != null)
+            if (m_UpdateEvent != null)
             {
-                updateEvent();
+                m_UpdateEvent();
             }
+        }
+        public static void Stop()
+        {
+            m_TimerUpdate.Stop();
+            m_TimerUpdate.Dispose();
+        }
+        public static IEnumerator StartCoroutine(IEnumerator iterator)
+        {
+            if (m_CoroutineList == null)
+            {
+                m_CoroutineList = new List<CCoroutine>();
+            }
+            if (m_Buffer == null)
+            {
+                m_Buffer = new List<IEnumerator>();
+            }
+            if (m_CoroutineList.Count == 0)
+            {
+                m_UpdateEvent += Update;
+            }
+            // add iterator to buffer first
+            m_Buffer.Add(iterator);
+
+            return iterator;
         }
     }
 }
