@@ -36,11 +36,15 @@ namespace Aogood.Network
 
         #endregion
 
+        #region Event
+        public event Action<string> LogEvent;
+        #endregion
         #region Public
 
         public CNetwork()
         {
         }
+
         public virtual void Send(RequestObject request)
         {
             Socket workSocket = request.workSocket;
@@ -150,9 +154,7 @@ namespace Aogood.Network
         {
             if (e != null)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ErrorCode:" + (SocketError)e.ErrorCode + " \nErrorMessage:" + e.Message);
-                Console.ForegroundColor = ConsoleColor.White;
+                Log("ErrorCode:" + (SocketError)e.ErrorCode + " \nErrorMessage:" + e.Message);
                 ExceptionHandle(e, s);
             }
 
@@ -171,6 +173,14 @@ namespace Aogood.Network
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void Log(string log)
+        {
+            if (LogEvent != null && !string.IsNullOrEmpty(log))
+            {
+                LogEvent(log);
             }
         }
         #endregion

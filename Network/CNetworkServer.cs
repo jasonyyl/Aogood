@@ -14,7 +14,7 @@ namespace Aogood.Network
     {
         #region Field
         protected Dictionary<string, Socket> m_SocketProx;
-        protected ManualResetEvent m_AllDone = new ManualResetEvent(false);
+        protected ManualResetEvent m_WaitConnect = new ManualResetEvent(false);
         #endregion
 
         #region Property
@@ -53,7 +53,7 @@ namespace Aogood.Network
 
             while (true)
             {
-                m_AllDone.Reset();
+                m_WaitConnect.Reset();
                 try
                 {
                     //等待客户端连接
@@ -63,13 +63,13 @@ namespace Aogood.Network
                 catch
                 {
                 }
-                m_AllDone.WaitOne();
+                m_WaitConnect.WaitOne();
             }
 
         }
         private void AcceptCallback(IAsyncResult ar)
         {
-            m_AllDone.Set();
+            m_WaitConnect.Set();
             try
             {
                 Socket listenerSocket = (Socket)ar.AsyncState;
@@ -77,7 +77,7 @@ namespace Aogood.Network
                 ResponseObject state = new ResponseObject();
                 state.workSocket = proxSocket;
                 m_SocketProx.Add(proxSocket.RemoteEndPoint.ToString(), proxSocket);
-                Console.WriteLine("iP为{0}的用户连接到服务器", proxSocket.RemoteEndPoint);
+                Log("iP：" + proxSocket.RemoteEndPoint + "的用户连接到服务器");
                 Receive(state);
             }
             catch

@@ -1,5 +1,6 @@
 ﻿using Aogood.Network;
 using Aogood.Foundation;
+using Aogood.SHLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +11,30 @@ namespace Server
 {
     class Program
     {
-        static Aogood.Network.CNetworkServer s;
+        static CNetworkServer s;
+        static CModuleManager m_ModuleManger;
         static void Main(string[] args)
         {
-            s = new Aogood.Network.CNetworkServer("192.168.8.118", 8899);
-            s.Start();
+            m_ModuleManger = new CModuleManager();
+            m_ModuleManger.LoadModule(EModuleType.LOGIN_SYSTEM);
+            s = new CNetworkServer("192.168.8.100", 8899);
             s.MessageReceiveEvent += MessageReceiveEventHandler;
+            s.LogEvent += LogEventHandler;
+            s.Start();
             Console.ReadKey();
         }
-
         private static void MessageReceiveEventHandler(ResponseObject obj)
         {
-            Aogood.SHLib.MSG_STC_CHAT msg = new Aogood.SHLib.MSG_STC_CHAT();
-            msg.Content = "你好";
+            CNetworkMessage msg = m_ModuleManger.GetHandledMessage(obj.msgPack.GetMessage(obj.msgPack.MsgContent));
             RequestObject requset = CAogoodFactory.Instance.GetObject<RequestObject>();
             requset.SetRequsetMessage(msg);
             requset.workSocket = obj.workSocket;
             s.Send(requset);
             s.Receive(obj);
+        }
+        private static void LogEventHandler(string log)
+        {
+            Console.WriteLine(log);
         }
     }
 }

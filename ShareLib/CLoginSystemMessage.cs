@@ -5,7 +5,7 @@ namespace Aogood.SHLib
 {
     public enum ELoginSystemMessageType
     {
-        NONE = ESystemType.LOGIN_SYSTEM * CSystemParameters.NetMessageRange,
+        NONE = EModuleType.LOGIN_SYSTEM * CSystemParameters.NetMessageRange,
         /// <summary>
         /// 登录信息：客户端到服务器
         /// </summary>
@@ -23,7 +23,7 @@ namespace Aogood.SHLib
         public string LoginName { get; set; }
         public string PassWord { get; set; }
         public MSG_CTS_LOGIN()
-            : base((int)ELoginSystemMessageType.MSG_CTS_LOGIN, (int)ESystemType.LOGIN_SYSTEM)
+            : base((int)ELoginSystemMessageType.MSG_CTS_LOGIN, (int)EModuleType.LOGIN_SYSTEM)
         {
 
         }
@@ -32,9 +32,10 @@ namespace Aogood.SHLib
     [Serializable]
     public class MSG_STC_LOGIN : CNetworkMessage
     {
+        public bool IsLogin { get; set; }
         public string LoginMsg { get; set; }
         public MSG_STC_LOGIN()
-            : base((int)ELoginSystemMessageType.MSG_STC_LOGIN, (int)ESystemType.LOGIN_SYSTEM)
+            : base((int)ELoginSystemMessageType.MSG_STC_LOGIN, (int)EModuleType.LOGIN_SYSTEM)
         {
 
         }

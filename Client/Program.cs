@@ -11,17 +11,25 @@ namespace Client
 {
     class Program
     {
+        static CNetworkClient c;
         static void Main(string[] args)
         {
-            CNetworkClient netWClient = new CNetworkClient("192.168.8.118", 8899);
             while (true)
             {
                 string command = Console.ReadLine();
-                if (command == "send")
+                if (command == "connect")
                 {
-                    netWClient.Connect();
-                    CCoroutineManager.StartCoroutine(Wait(netWClient));
-
+                    c = new CNetworkClient("192.168.8.100", 8899);
+                    c.LogEvent += LogEventHandler;
+                    c.Connect();
+                }
+                if (command == "login")
+                {
+                    Console.Write("LoginName:");
+                    string loginName = Console.ReadLine();
+                    Console.Write("Password:");
+                    string pwd = Console.ReadLine();
+                    CCoroutineManager.StartCoroutine(LoginCoroutine(c, loginName, pwd));
                 }
                 if (command == "close")
                 {
@@ -32,20 +40,27 @@ namespace Client
             CCoroutineManager.Stop();
 
         }
-        static IEnumerator Wait(Aogood.Network.CNetworkClient c)
+
+        static IEnumerator LoginCoroutine(CNetworkClient c, string loginName, string pwd)
         {
-            Aogood.SHLib.MSG_CTS_CHAT send = new Aogood.SHLib.MSG_CTS_CHAT();
-            send.Content = "i love you";
-            Aogood.Network.CNetworkMessageResponseHandlerT<Aogood.SHLib.MSG_STC_CHAT> chat = new Aogood.Network.CNetworkMessageResponseHandlerT<Aogood.SHLib.MSG_STC_CHAT>();
-            if (!c.SendResponsible(send, out chat))
+            Aogood.SHLib.MSG_CTS_LOGIN loginMsg = new Aogood.SHLib.MSG_CTS_LOGIN();
+            loginMsg.LoginName = loginName;
+            loginMsg.PassWord = pwd;
+            CNetworkMessageResponseHandlerT<Aogood.SHLib.MSG_STC_LOGIN> login = new CNetworkMessageResponseHandlerT<Aogood.SHLib.MSG_STC_LOGIN>();
+            if (!c.SendResponsible(loginMsg, out login))
             {
                 Console.WriteLine("Send Failed");
             }
-            yield return CNetworkClient.WaitForResponse(chat);
-            if (chat.IsResponse)
+            yield return CNetworkClient.WaitForResponse(login);
+            if (login.IsResponse)
             {
-                Console.WriteLine(chat.ResponseMsg.Content);
+                Console.WriteLine(login.ResponseMsg.LoginMsg);
             }
+        }
+
+        private static void LogEventHandler(string log)
+        {
+            Console.WriteLine(log);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Aogood.SHLib
 
     public enum EChatSystemMessageType
     {
-        NONE = ESystemType.CHAT_SYSTEM * CSystemParameters.NetMessageRange,
+        NONE = EModuleType.CHAT_SYSTEM * CSystemParameters.NetMessageRange,
         /// <summary>
         /// 发送信息：客户端到服务器
         /// </summary>
@@ -24,7 +24,7 @@ namespace Aogood.SHLib
 
         public string Receiver { get; set; }
         public MSG_CTS_CHAT()
-            : base((int)EChatSystemMessageType.MSG_CTS_CHAT, (int)ESystemType.CHAT_SYSTEM)
+            : base((int)EChatSystemMessageType.MSG_CTS_CHAT, (int)EModuleType.CHAT_SYSTEM)
         {
 
         }
@@ -36,7 +36,7 @@ namespace Aogood.SHLib
         public string Content { get; set; }
         public string Receiver { get; set; }
         public MSG_STC_CHAT()
-            : base((int)EChatSystemMessageType.MSG_STC_CHAT, (int)ESystemType.CHAT_SYSTEM)
+            : base((int)EChatSystemMessageType.MSG_STC_CHAT, (int)EModuleType.CHAT_SYSTEM)
         {
 
         }

@@ -7,7 +7,7 @@ namespace Aogood.SHLib
 {
     public enum EHeartMessageType
     {
-        NONE = ESystemType.CHAT_SYSTEM * CSystemParameters.NetMessageRange,
+        NONE = EModuleType.CHAT_SYSTEM * CSystemParameters.NetMessageRange,
         /// <summary>
         /// 心跳包：客户端到服务器
         /// </summary>
@@ -21,7 +21,7 @@ namespace Aogood.SHLib
     public class MSG_CTS_HEART : CNetworkMessage
     {
         public MSG_CTS_HEART()
-            : base((int)EHeartMessageType.MSG_CTS_HEART, (int)ESystemType.HEART_SYSTEM)
+            : base((int)EHeartMessageType.MSG_CTS_HEART, (int)EModuleType.HEART_SYSTEM)
         {
 
         }
@@ -32,7 +32,7 @@ namespace Aogood.SHLib
     {
         public bool IsGet { get; set; }
         public MSG_STC_HEART()
-            : base((int)EHeartMessageType.MSG_STC_HEART, (int)ESystemType.HEART_SYSTEM)
+            : base((int)EHeartMessageType.MSG_STC_HEART, (int)EModuleType.HEART_SYSTEM)
         {
 
         }

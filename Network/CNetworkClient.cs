@@ -25,6 +25,7 @@ namespace Aogood.Network
             return m_SocketMain.Connected;
         }
         #endregion
+
         #region Method
         public CNetworkClient(string ip, int port)
         {
@@ -45,9 +46,10 @@ namespace Aogood.Network
             if (m_SocketMain != null)
             {
                 if (m_SocketMain.Connected)
-                {
+                {                   
                     m_SocketMain.Shutdown(SocketShutdown.Both);
                     m_SocketMain.Close();
+                    MessageReceiveEvent -= MessageReceive;
                     m_IsConnected = false;
                 }
             }
@@ -60,6 +62,7 @@ namespace Aogood.Network
                 if (socketClient != null)
                     socketClient.EndConnect(ar);
                 MessageReceiveEvent += MessageReceive;
+                Log("connect to server:" + socketClient.RemoteEndPoint);
                 m_IsConnected = true;
             }
             catch (SocketException e)
@@ -91,7 +94,6 @@ namespace Aogood.Network
         {
             obj.msgResponse.SetResoneMessage(obj.msgPack.GetMessage(obj.msgPack.MsgContent));
             obj.msgResponse.IsResponse = true;
-            this.Disconnect();
         }
         public static IEnumerator WaitForResponse(CNetworkMessageResponseHandler responseMsg, float timeOut = 1)
         {

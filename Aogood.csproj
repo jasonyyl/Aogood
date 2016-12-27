@@ -63,7 +63,7 @@
     <Compile Include="ShareLib\CChatSystemMessage.cs" />
     <Compile Include="ShareLib\CHeartMessage.cs" />
     <Compile Include="ShareLib\CLoginSystemMessage.cs" />
-    <Compile Include="ShareLib\ESystemType.cs" />
+    <Compile Include="ShareLib\EModuleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

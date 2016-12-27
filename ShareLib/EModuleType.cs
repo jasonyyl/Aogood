@@ -4,9 +4,8 @@ namespace Aogood.SHLib
     public class CSystemParameters
     {
         public const int NetMessageRange = 1000;
-
     }
-    public enum ESystemType : byte
+    public enum EModuleType : byte
     {
         /// <summary>
         ///起始

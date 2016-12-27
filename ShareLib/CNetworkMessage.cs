@@ -6,11 +6,11 @@ namespace Aogood.SHLib
     [Serializable]
     public class CNetworkMessage : CMessage
     {
-        public int MessageSystemId { get; set; }
+        public int MessageModuleId { get; set; }
         public CNetworkMessage(int messageId, int messageSystem)
         {
             MessageId = messageId;
-            MessageSystemId = messageSystem;
+            MessageModuleId = messageSystem;
         }
     }
 }
